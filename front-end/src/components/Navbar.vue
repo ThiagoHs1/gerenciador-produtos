@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav class="navbar" >
     <h1>Gerenciador-Produtos</h1>
   </nav>
 </template>
