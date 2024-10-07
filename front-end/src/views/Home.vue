@@ -21,6 +21,19 @@ export default {
     async fetchProducts() {
       this.products = await fetchProducts();
     },
+    async fetchProductsWithEffect() {
+      await this.fetchProducts();
+      this.applyProductEffect();
+    },
+    applyProductEffect() {
+      const productItems = document.querySelectorAll('.product-item');
+      productItems.forEach(item => {
+        item.classList.add('fade-in');
+        setTimeout(() => {
+          item.classList.remove('fade-in');
+        }, 500); // Duração do efeito em milissegundos
+      });
+    },
   },
   created() {
     this.fetchProducts();
@@ -35,7 +48,7 @@ export default {
     <div id="app" >
         <Navbar />
        
-        <AddProduct  @product-added="fetchProducts"  />
+        <AddProduct  @product-added="fetchProductsWithEffect"  />
         <ProductList :products="products" />
     </div>
 
@@ -44,5 +57,16 @@ export default {
 
 
 <style>
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 </style>
