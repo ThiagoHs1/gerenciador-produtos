@@ -49,7 +49,7 @@ export default {
         <Navbar />
        
         <AddProduct  @product-added="fetchProductsWithEffect"  />
-        <ProductList :products="products" />
+        <ProductList :products="products" @product-deleted="fetchProducts" />
     </div>
 
 </template>

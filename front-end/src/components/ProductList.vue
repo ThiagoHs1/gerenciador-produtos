@@ -6,28 +6,41 @@
         <h3 class="text-xl font-semibold text-purple-800">Produto: {{ product.name }}</h3>
         <p class="text-gray-700">{{ product.description }}</p>
         <p class="text-gray-900 font-semibold">Preço: R$ {{ product.price }}</p>
+        <button @click="editProduct(product)" class="w-100 bg-purple-700 text-white p-1 mr-5 rounded-lg font-semibold hover:bg-purple-800 transition-colors" >Editar</button>
+        <button @click="deleteProduct(product.id)" class="w-100 bg-red-700 text-white p-1 mr-5 rounded-lg font-semibold hover:bg-red-800 transition-colors" >Excluir</button>
       </li>
     </ul>
+    <EditProduct v-if="selectedProduct" :product="selectedProduct" @product-updated="$emit('product-updated')" />
   </div>
 </template>
 
 <script>
-import { fetchProducts } from '../services/api';
+import EditProduct from './EditProduct.vue';
+import { deleteProduct } from '../services/api';
 
 export default {
+  components: {
+    EditProduct,
+  },
+  props: {
+    products: Array, // Use 'products' apenas como prop
+  },
   data() {
     return {
-      products: [],
+      selectedProduct: null,
     };
   },
-  async created() {
-    this.products = await fetchProducts();
+  methods: {
+    async deleteProduct(id) {
+      await deleteProduct(id);
+      this.$emit('product-deleted');
+    },
+    editProduct(product) {
+      this.selectedProduct = product;
+    },
   },
 };
-
-
 </script>
 
 <style>
-
 </style>

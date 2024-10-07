@@ -25,6 +25,8 @@ const schema = buildSchema(`
   
     type Mutation {
       createProduct(name: String!, price: Float!, description: String): Product
+       updateProduct(id: ID!, name: String!, price: Float!, description: String): Product
+       deleteProduct(id: ID!): String
     }
   `);
 
@@ -36,6 +38,14 @@ const root = {
     createProduct: async ({ name, price, description }) => {
       const product = await Product.create({ name, price, description });
       return product;
+    },
+    updateProduct: async ({ id, name, price, description }) => {
+      await Product.update({ name, price, description }, { where: { id } });
+      return await Product.findByPk(id);
+    },
+    deleteProduct: async ({ id }) => {
+      await Product.destroy({ where: { id } });
+      return "Produto excluído com sucesso!";
     },
   };
 
