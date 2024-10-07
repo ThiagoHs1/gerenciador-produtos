@@ -3,9 +3,12 @@ const { buildSchema } = require('graphql');
 const { sequelize } = require('./config/db');
 const Product = require('./models/Product');
 const { graphqlHTTP } = require('express-graphql');
+const cors = require('cors');
 
 
 const app = express();
+
+app.use(cors());
 
 // Definir o schema GraphQL
 const schema = buildSchema(`
