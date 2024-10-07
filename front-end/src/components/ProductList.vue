@@ -15,7 +15,7 @@
         <button @click="deleteProduct(product.id)" class="w-50 bg-red-700 text-white p-1 mr-3 rounded-lg font-semibold hover:bg-red-800 transition-colors">Excluir</button>
       </li>
     </ul>
-    <EditProduct v-if="selectedProduct" :product="selectedProduct" @product-updated="$emit('product-updated')" />
+    <EditProduct v-if="selectedProduct" :product="selectedProduct" @product-updated="$emit('product-updated')" @close-edit="selectedProduct = null"  />
   </div>
 </template>
 
