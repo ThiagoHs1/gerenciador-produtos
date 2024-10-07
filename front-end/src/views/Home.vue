@@ -1,6 +1,4 @@
-<script  >
-
-
+<script>
 import AddProduct from '@/components/AddProduct.vue';
 import ProductList from '@/components/ProductList.vue';
 import Navbar from '@/components/Navbar.vue';
@@ -34,31 +32,41 @@ export default {
         }, 500); // Duração do efeito em milissegundos
       });
     },
+    async applyProductRemovalEffect(id) {
+      const productItem = document.querySelector(`.product-item[data-id="${id}"]`);
+      if (productItem) {
+        productItem.classList.add('fade-out');
+        setTimeout(() => {
+          this.fetchProductsWithEffect();
+        }, 500); // Duração do efeito antes de atualizar a lista
+      }
+    },
   },
   created() {
     this.fetchProducts();
   },
 };
-
 </script>
 
-
 <template>
-    
-    <div id="app" >
-        <Navbar />
-       
-        <AddProduct  @product-added="fetchProductsWithEffect"  />
-        <ProductList :products="products" @product-deleted="fetchProducts" />
-    </div>
-
+  <div id="app">
+    <Navbar />
+    <AddProduct @product-added="fetchProductsWithEffect" />
+    <ProductList 
+      :products="products" 
+      @product-deleted="applyProductRemovalEffect" 
+      @product-updated="fetchProductsWithEffect" 
+    />
+  </div>
 </template>
-
-
 
 <style>
 .fade-in {
   animation: fadeIn 0.5s ease-in-out;
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -67,6 +75,15 @@ export default {
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 </style>
